@@ -67,18 +67,51 @@ const GhostModeSearch = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-ghost-50 to-ghost-100 font-inter">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold text-ghost-800 mb-4">
-            Hi welcome to
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent-500 to-accent-700">
-              ghost mode
-            </span>
-          </h1>
-          <p className="text-ghost-600 text-lg font-light">
-            Discover your digital footprint across the web
-          </p>
+        <div className="text-center mb-8 animate-fade-in">
+          <div className="relative">
+            {/* Decorative elements */}
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-accent-400 to-accent-600 rounded-full opacity-60"></div>
+            
+            <h1 className="text-4xl md:text-6xl font-bold text-ghost-800 mb-3 relative">
+              <span className="inline-block">Hi</span>{" "}
+              <span className="inline-block bg-gradient-to-r from-ghost-700 to-ghost-900 bg-clip-text text-transparent">
+                welcome to
+              </span>
+              <span className="block mt-2 text-5xl md:text-7xl font-extrabold">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-500 via-accent-600 to-accent-700 animate-pulse-gentle">
+                  GHOST
+                </span>{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-600 via-accent-700 to-accent-800">
+                  MODE
+                </span>
+              </span>
+            </h1>
+            
+            {/* Subtitle with enhanced styling */}
+            <div className="relative">
+              <p className="text-ghost-600 text-lg md:text-xl font-medium tracking-wide">
+                Discover your 
+                <span className="text-accent-600 font-semibold mx-1">digital footprint</span> 
+                across the web
+              </p>
+              {/* Decorative underline */}
+              <div className="mt-2 mx-auto w-32 h-0.5 bg-gradient-to-r from-transparent via-accent-400 to-transparent"></div>
+            </div>
+            
+            {/* Floating icons for visual enhancement */}
+            <div className="absolute -right-8 top-4 opacity-20 animate-pulse">
+              <svg className="w-8 h-8 text-accent-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="absolute -left-8 bottom-4 opacity-20 animate-pulse" style={{animationDelay: '1s'}}>
+              <svg className="w-6 h-6 text-accent-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         {/* Search Form */}
