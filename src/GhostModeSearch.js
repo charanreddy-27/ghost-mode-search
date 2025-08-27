@@ -30,15 +30,21 @@ const GhostModeSearch = () => {
     const newErrors = {};
     
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = 'Full name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
     }
     
     if (!formData.username.trim()) {
       newErrors.username = 'Username is required';
+    } else if (formData.username.trim().length < 3) {
+      newErrors.username = 'Username must be at least 3 characters';
+    } else if (!/^[a-zA-Z0-9_.-]+$/.test(formData.username.trim())) {
+      newErrors.username = 'Username can only contain letters, numbers, dots, hyphens, and underscores';
     }
     
     if (!formData.platform.trim()) {
-      newErrors.platform = 'Platform is required';
+      newErrors.platform = 'Please select a platform';
     }
     
     setErrors(newErrors);
@@ -49,6 +55,12 @@ const GhostModeSearch = () => {
     e.preventDefault();
     
     if (!validateForm()) {
+      // Add shake animation to the form when validation fails
+      const form = e.target;
+      form.classList.add('animate-shake');
+      setTimeout(() => {
+        form.classList.remove('animate-shake');
+      }, 500);
       return;
     }
     
@@ -57,9 +69,11 @@ const GhostModeSearch = () => {
     // Simulate API call
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      setResults(`Search results for ${formData.name} (@${formData.username}) on ${formData.platform}:`);
+      const platformName = formData.platform.charAt(0).toUpperCase() + formData.platform.slice(1);
+      setResults(`Search completed for ${formData.name} (@${formData.username}) on ${platformName}. Analyzing digital footprint...`);
     } catch (error) {
       console.error('Search error:', error);
+      setResults('An error occurred while searching. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -129,11 +143,23 @@ const GhostModeSearch = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Enter your full name"
-                className={`input-field ${errors.name ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : ''}`}
+                className={`input-field transition-all duration-200 ${
+                  errors.name 
+                    ? 'border-red-400 focus:border-red-500 focus:ring-red-200 bg-red-50/50' 
+                    : 'border-ghost-200 focus:border-accent-500 focus:ring-accent-200'
+                }`}
               />
-              {errors.name && (
-                <p className="text-red-500 text-sm animate-fade-in">{errors.name}</p>
-              )}
+              {/* Fixed height container for error message */}
+              <div className="h-5 flex items-center">
+                {errors.name && (
+                  <p className="text-red-500 text-sm animate-fade-in flex items-center">
+                    <svg className="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {errors.name}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Username and Platform Row */}
@@ -150,11 +176,23 @@ const GhostModeSearch = () => {
                   value={formData.username}
                   onChange={handleInputChange}
                   placeholder="Your username"
-                  className={`input-field ${errors.username ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : ''}`}
+                  className={`input-field transition-all duration-200 ${
+                    errors.username 
+                      ? 'border-red-400 focus:border-red-500 focus:ring-red-200 bg-red-50/50' 
+                      : 'border-ghost-200 focus:border-accent-500 focus:ring-accent-200'
+                  }`}
                 />
-                {errors.username && (
-                  <p className="text-red-500 text-sm animate-fade-in">{errors.username}</p>
-                )}
+                {/* Fixed height container for error message */}
+                <div className="h-5 flex items-center">
+                  {errors.username && (
+                    <p className="text-red-500 text-sm animate-fade-in flex items-center">
+                      <svg className="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {errors.username}
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Platform Field */}
@@ -167,7 +205,11 @@ const GhostModeSearch = () => {
                   name="platform"
                   value={formData.platform}
                   onChange={handleInputChange}
-                  className={`input-field ${errors.platform ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : ''}`}
+                  className={`input-field transition-all duration-200 ${
+                    errors.platform 
+                      ? 'border-red-400 focus:border-red-500 focus:ring-red-200 bg-red-50/50' 
+                      : 'border-ghost-200 focus:border-accent-500 focus:ring-accent-200'
+                  }`}
                 >
                   <option value="">Select platform</option>
                   <option value="twitter">Twitter/X</option>
@@ -179,14 +221,22 @@ const GhostModeSearch = () => {
                   <option value="tiktok">TikTok</option>
                   <option value="youtube">YouTube</option>
                 </select>
-                {errors.platform && (
-                  <p className="text-red-500 text-sm animate-fade-in">{errors.platform}</p>
-                )}
+                {/* Fixed height container for error message */}
+                <div className="h-5 flex items-center">
+                  {errors.platform && (
+                    <p className="text-red-500 text-sm animate-fade-in flex items-center">
+                      <svg className="w-4 h-4 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      {errors.platform}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
             {/* Search Button */}
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-6">
               <button
                 type="submit"
                 disabled={isLoading}
